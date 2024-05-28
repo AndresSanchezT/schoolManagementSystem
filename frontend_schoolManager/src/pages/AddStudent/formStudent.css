@@ -1,0 +1,40 @@
+.custom-scroll {
+    max-height: 90vh;
+    /* Ajusta esto según tus necesidades */
+    overflow-y: auto; 
+    /* Firefox */
+}
+.form-label{
+    color: red;
+}
+.form-control, .form-select{
+    border: 2px solid black;
+}
+
+
+
+/*****DISEÑO DE SCROLL*****/
+.custom-scroll::-webkit-scrollbar {
+    width: 8px;
+    /* Ancho de la barra de desplazamiento */
+}
+
+.custom-scroll::-webkit-scrollbar-track {
+    background: #0e2238;
+    /* Color de fondo del track (pista) de la barra de desplazamiento */
+}
+
+.custom-scroll::-webkit-scrollbar-thumb {
+    background: #0e2238;
+    /* Color del pulgar (thumb) de la barra de desplazamiento */
+    border-radius: 10px;
+    /* Bordes redondeados del pulgar */
+}
+
+.custom-scroll::-webkit-scrollbar-thumb:hover {
+    background: #9c1919;
+    /* Color del pulgar cuando se pasa el mouse por encima */
+}
+
+
+/*************************************************/

@@ -1,0 +1,11 @@
+.navStudent {
+    background-color: rgb(231, 53, 53);
+}
+.input-group .form-control:hover {
+    border: 1px solid red;
+}
+
+.form-control:focus {
+    border-color: red;
+    /* Cambia el color del borde a rojo */
+}
