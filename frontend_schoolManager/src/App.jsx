@@ -1,11 +1,25 @@
-import './App.css'
-import MainRouter from './routes/Principal'
+import React from "react";
+import { RouterProvider } from "react-router-dom";
+import Aside from "./sections/Aside/Aside";
+import HeaderComponent from "./sections/Header/Header";
+
+import router from "./routes/Routes";
+import "./App.css";
+
 
 function App() {
-
   return (
-    <MainRouter/>
-  )
+    <div className="container-fluid principal">
+      <HeaderComponent />
+      <div className="container-fluid d-flex flex-row">
+        <Aside />
+        <div className="container-fluid">
+          {/* Utiliza RouterProvider y pasa el enrutador */}
+          <RouterProvider router={router} />
+        </div>
+      </div>
+    </div>
+  );
 }
 
-export default App
+export default App;

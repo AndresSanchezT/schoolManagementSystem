@@ -24,3 +24,14 @@ body {
     font-family: 'Poppins', sans-serif;
 }
 
+
+.principal {
+    padding: 0;
+    height: 100vh;
+
+}
+
+.container-fluid {
+    padding: 0;
+}
+
