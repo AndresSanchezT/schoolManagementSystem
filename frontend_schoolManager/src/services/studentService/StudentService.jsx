@@ -23,7 +23,7 @@ export const addStudent = async (student) => {
 export const getStudent = async (studentId) => {
     try {
         const response = await axios.get(`${REST_API_BASE_URL}/${studentId}`);
-        return response.data;
+        return response;
     } catch (error) {
         handleError(error);
     }

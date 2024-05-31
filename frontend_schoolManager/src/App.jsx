@@ -14,7 +14,6 @@ function App() {
       <div className="container-fluid d-flex flex-row">
         <Aside />
         <div className="container-fluid">
-          {/* Utiliza RouterProvider y pasa el enrutador */}
           <RouterProvider router={router} />
         </div>
       </div>

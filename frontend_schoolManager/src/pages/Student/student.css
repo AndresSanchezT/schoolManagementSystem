@@ -1,0 +1,36 @@
+/* Estilo para el tooltip */
+.btn-tooltip {
+    position: relative;
+    display: inline-block;
+}
+
+/* Estilo para el texto del tooltip */
+.btn-tooltip::before {
+    content: attr(data-title);
+    /* Utiliza el texto del atributo title */
+    position: absolute;
+    background-color: #333;
+    /* Color de fondo del tooltip */
+    color: #fff;
+    /* Color del texto del tooltip */
+    padding: 4px 8px;
+    /* Espaciado interno del tooltip */
+    border-radius: 4px;
+    /* Radio de borde del tooltip */
+    z-index: 1;
+    bottom: 125%;
+    /* Coloca el tooltip arriba del botón */
+    left: 50%;
+    /* Centra el tooltip */
+    transform: translateX(-50%);
+    opacity: 0;
+    /* Inicialmente invisible */
+    transition: opacity 0.3s;
+    /* Transición de la opacidad */
+}
+
+/* Estilo para mostrar el tooltip al pasar el mouse */
+.btn-tooltip:hover::before {
+    opacity: 1;
+    /* Hacer visible el tooltip al pasar el mouse */
+}

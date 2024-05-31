@@ -1,15 +1,16 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './formStudent.css';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs';
 import { FormInput, FormRadio } from './FormComponents';
-import { addStudent } from '../../services/studentService/StudentService';
-import { useNavigate } from 'react-router-dom';
+import { addStudent, getStudent, updateStudent } from '../../services/studentService/StudentService';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 
 const AddStudent = () => {
-    const navigator = useNavigate()
+    const navigator = useNavigate();
+    const { id } = useParams();
 
     const [form, setForm] = useState({
         name: '',
@@ -32,11 +33,39 @@ const AddStudent = () => {
     });
 
     const [errors, setErrors] = useState({});
+     const [loading, setLoading] = useState(true)
 
     const grados = {
         EBR: ['Inicial', 'Primaria', 'Secundaria'],
         EBA: ['Basico', 'Intermedio', 'Avanzado']
     };
+
+    useEffect(() => {
+        if (id) {
+            const fetchStudent = async () => {
+                try {
+                    const { data } = await getStudent(id);
+                    console.log(data)
+                    if (data) {
+                        setForm({
+                            ...data,
+                            birthdate: data.birthdate ? dayjs(data.birthdate).format('YYYY-MM-DD') : null,
+                        });
+                    } else {
+                        console.error('Los datos del estudiante son inválidos.');
+                    }
+                } catch (err) {
+                    console.error(err);
+                } finally {
+                    setLoading(false); // Una vez que se completa la carga, establece loading en falso
+                }
+            };
+            fetchStudent();
+        } else {
+            setLoading(false); // Si no hay un ID, establece loading en falso de inmediato
+        }
+    }, [id]);
+
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -44,7 +73,7 @@ const AddStudent = () => {
             ...prevForm,
             [name]: value
         }));
-    };
+    };  
 
     const handleModalidadChange = (e) => {
         const modalidad = e.target.value;
@@ -94,37 +123,27 @@ const AddStudent = () => {
         return Object.keys(errors).length === 0;
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         if (validateForm()) {
-            const student = {
-                name: form.name,
-                lastName: form.lastName,
-                dni: form.dni,
-                modality: form.modality,
-                degree: form.degree,
-                gender: form.gender,
-                email: form.email,
-                contactNumber: form.contactNumber,
-                address: form.address,
-                birthdate: form.birthdate,
-                fatherName: form.fatherName,
-                motherName: form.motherName,
-                cellphoneNumber: form.cellphoneNumber,
-                previousSchoolName: form.previousSchoolName,
-                shift: form.shift,
-                observations: form.observations,
-                state: form.state
-            };
+            const student = { ...form };
 
-            addStudent(student);
-            navigator("/")
-            console.log(form);
-            // Aquí puedes manejar el envío del formulario
+            try {
+                if (id) {
+                    await updateStudent(id, student);
+                } else {
+                    await addStudent(student);
+                }
+                navigator("/");
+            } catch (err) {
+                console.error(err);
+            }
         }
     };
+
     return (
         <div className='container p-4 custom-scroll'>
+            <Link to='/' className='btn btn-primary'>Atras</Link>
             <form className="row mt-4 g-1" onSubmit={handleSubmit}>
                 <div className='row'>
                     <FormInput label="Nombre" name="name" value={form.name} onChange={handleChange} error={errors.name} />

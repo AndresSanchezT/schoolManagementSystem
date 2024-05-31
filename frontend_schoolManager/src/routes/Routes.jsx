@@ -10,6 +10,9 @@ const router = createBrowserRouter([
     {
         path: "/añadirEstudiante",
         element: <AddStudent />,
+    }, {
+        path: "/editarEstudiante/:id",
+        element: <AddStudent />,
     },
 ]);
 
