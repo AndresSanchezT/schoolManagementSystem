@@ -5,20 +5,26 @@ import HeaderComponent from "./sections/Header/Header";
 
 import router from "./routes/Routes";
 import "./App.css";
+import { StudentProvider } from "./components/NavStudent/StudentContext";
 
 
 function App() {
   return (
-    <div className="container-fluid principal">
-      <HeaderComponent />
-      <div className="container-fluid d-flex flex-row">
-        <Aside />
-        <div className="container-fluid">
-          <RouterProvider router={router} />
+    <>
+      <StudentProvider>
+        <div className="container-fluid principal">
+          <HeaderComponent />
+          <div className="container-fluid d-flex flex-row">
+            <Aside />
+            <div className="container-fluid">
+              <RouterProvider router={router} />
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
+      </StudentProvider>
+    </>
   );
+
 }
 
 export default App;

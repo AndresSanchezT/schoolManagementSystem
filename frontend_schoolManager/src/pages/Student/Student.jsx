@@ -1,10 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { deleteStudent, listStudent } from '../../services/studentService/StudentService.jsx';
 import NavStudent from '../../components/NavStudent/NavStudent.jsx';
 import './student.css';
 import { useNavigate } from 'react-router-dom';
+import { StudentContext } from '../../components/NavStudent/StudentContext.jsx';
 
 const TableStudent = () => {
+    const { selectedModality } = useContext(StudentContext);
     const [estudiantes, setEstudiantes] = useState([]);
     const navigator = useNavigate();
 
@@ -24,10 +26,10 @@ const TableStudent = () => {
 
     useEffect(() => {
         const fetchStudents = async () => {
+            console.log(estudiantes)
             try {
                 const data = await listStudent();
                 setEstudiantes(data);
-                console.log(data);
             } catch (err) {
                 console.error("Error fetching students:", err);
             }
@@ -35,6 +37,14 @@ const TableStudent = () => {
 
         fetchStudents();
     }, []);
+
+    const filteredEstudiantes = estudiantes.filter((estudiante) => {
+        if (selectedModality === 'TODOS') {
+            return true; // Si la modalidad seleccionada es 'TODOS', mostramos todos los estudiantes
+        } else {
+            return estudiante.modality === selectedModality; // Filtramos por la modalidad seleccionada
+        }
+    });
 
     return (
         <div className='container-fluid px-5 py-3'>
@@ -53,7 +63,7 @@ const TableStudent = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {estudiantes.map(estudiante => (
+                        {filteredEstudiantes.map(estudiante => (
                             <tr className='table-primary' key={estudiante.id}>
                                 <td>{estudiante.name}</td>
                                 <td>{estudiante.age}</td>

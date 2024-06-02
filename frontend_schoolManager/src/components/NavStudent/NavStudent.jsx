@@ -1,31 +1,58 @@
-import React from 'react'
-import './navStudent.css'
-import { Link } from 'react-router-dom'
+// NavStudent.jsx
+import React, { useContext } from 'react';
+import './navStudent.css';
+import { Link } from 'react-router-dom';
+import { StudentContext } from './StudentContext';
 
-const NavListStudent = () => {
+const NavStudent = () => {
+    const { selectedModality, setSelectedModality } = useContext(StudentContext);
+
+    const handleCheckboxChange = (event, modality) => {
+        setSelectedModality(modality);
+    };
+
     return (
         <>
             <div className='container-fluid d-flex justify-content-between mb-2'>
                 <div>
                     <Link to='/añadirEstudiante' className='btn btn-primary'>+ Nuevo Alumno</Link>
-
                 </div>
                 <div className='d-flex gap-3 align-items-center'>
                     <label htmlFor="ebr">EBR</label>
-                    <input type="checkbox" name="" id="ebr" />
-                    <label htmlFor="ebr">CEBA</label>
-                    <input type="checkbox" name="" id="" />
-                    <label htmlFor="ebr">TODOS</label>
-                    <input type="checkbox" name="" id="" />
+                    <input
+                        type="checkbox"
+                        id="ebr"
+                        checked={selectedModality === 'EBR'}
+                        onChange={(e) => handleCheckboxChange(e, 'EBR')}
+                    />
+
+                    <label htmlFor="eba">EBA</label>
+                    <input
+                        type="checkbox"
+                        id="eba"
+                        checked={selectedModality === 'EBA'}
+                        onChange={(e) => handleCheckboxChange(e, 'EBA')}
+                        
+                    />
+
+                    <label htmlFor="ceba">CEBA</label>
+                    <input
+                        type="checkbox"
+                        id="ceba"
+                        checked={selectedModality === 'CEBA'}
+                        onChange={(e) => handleCheckboxChange(e, 'CEBA')}
+                    />
+                    <label htmlFor="todos">TODOS</label>
+                    <input
+                        type="checkbox"
+                        id="todos"
+                        checked={selectedModality === 'TODOS'}
+                        onChange={(e) => handleCheckboxChange(e, 'TODOS')}
+                    />
                 </div>
             </div>
-            <div className="input-group mb-3">
-                <button className="input-group-text btn btn-outline-primary" id="basic-addon1"><i className="bi bi-search"></i></button>
-                <input type="text" className="form-control" placeholder="Nombre" aria-label="Username" aria-describedby="basic-addon1"/>
-            </div>
-            
         </>
-    )
-}
+    );
+};
 
-export default NavListStudent
+export default NavStudent;
