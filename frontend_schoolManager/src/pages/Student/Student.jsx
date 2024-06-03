@@ -1,50 +1,12 @@
-import React, { useEffect, useState, useContext } from 'react';
-import { deleteStudent, listStudent } from '../../services/studentService/StudentService.jsx';
+import React from 'react';
 import NavStudent from '../../components/NavStudent/NavStudent.jsx';
 import './student.css';
-import { useNavigate } from 'react-router-dom';
-import { StudentContext } from '../../components/NavStudent/StudentContext.jsx';
+import { useStudentList } from '../../hooks/studentList/useStudentList';
+
 
 const TableStudent = () => {
-    const { selectedModality } = useContext(StudentContext);
-    const [estudiantes, setEstudiantes] = useState([]);
-    const navigator = useNavigate();
-
-    const handleDelete = async (studentId) => {
-        try {
-            await deleteStudent(studentId);
-            const updatedStudents = estudiantes.filter(student => student.id !== studentId);
-            setEstudiantes(updatedStudents);
-        } catch (err) {
-            console.error(err);
-        }
-    };
-
-    const updateStudent = (id) => {
-        navigator(`/editarEstudiante/${id}`);
-    }
-
-    useEffect(() => {
-        const fetchStudents = async () => {
-            console.log(estudiantes)
-            try {
-                const data = await listStudent();
-                setEstudiantes(data);
-            } catch (err) {
-                console.error("Error fetching students:", err);
-            }
-        };
-
-        fetchStudents();
-    }, []);
-
-    const filteredEstudiantes = estudiantes.filter((estudiante) => {
-        if (selectedModality === 'TODOS') {
-            return true; // Si la modalidad seleccionada es 'TODOS', mostramos todos los estudiantes
-        } else {
-            return estudiante.modality === selectedModality; // Filtramos por la modalidad seleccionada
-        }
-    });
+    const { handleDelete, updateStudent, filteredStudents } = useStudentList();
+    console.log("render")
 
     return (
         <div className='container-fluid px-5 py-3'>
@@ -54,7 +16,7 @@ const TableStudent = () => {
                     <thead>
                         <tr className='table-danger'>
                             <th className='col-1'>NOMBRES</th>
-                            <th className='col-1'>EDAD</th>
+                            <th className='col-1'>DNI</th>
                             <th className='col-1'>TURNO</th>
                             <th className='col-1'>GRADO</th>
                             <th className='col-1'>MODALIDAD</th>
@@ -63,10 +25,10 @@ const TableStudent = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {filteredEstudiantes.map(estudiante => (
+                        {filteredStudents.map(estudiante => (
                             <tr className='table-primary' key={estudiante.id}>
                                 <td>{estudiante.name}</td>
-                                <td>{estudiante.age}</td>
+                                <td>{estudiante.dni}</td>
                                 <td>{estudiante.shift}</td>
                                 <td>{estudiante.grade}</td>
                                 <td>{estudiante.modality}</td>

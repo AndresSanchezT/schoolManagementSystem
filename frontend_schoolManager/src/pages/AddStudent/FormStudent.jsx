@@ -1,146 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react'
 import './formStudent.css';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import dayjs from 'dayjs';
 import { FormInput, FormRadio } from './FormComponents';
-import { addStudent, getStudent, updateStudent } from '../../services/studentService/StudentService';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import { useForm } from '../../hooks/studentForm/UseForm';
+
 
 const AddStudent = () => {
-    const navigator = useNavigate();
-    const { id } = useParams();
-
-    const [form, setForm] = useState({
-        name: '',
-        lastName: '',
-        dni: '',
-        modality: 'EBR',
-        degree: '',
-        gender: '',
-        email: '',
-        contactNumber: '',
-        address: '',
-        birthdate: null,
-        fatherName: '',
-        motherName: '',
-        cellphoneNumber: '',
-        previousSchoolName: '',
-        shift: '',
-        observations: '',
-        state: '',
-    });
-
-    const [errors, setErrors] = useState({});
-    const [loading, setLoading] = useState(true);
-
-    const grados = {
-        EBR: ['Inicial', 'Primaria', 'Secundaria'],
-        EBA: ['Basico', 'Intermedio', 'Avanzado'],
-        CEBA: ['Basico','Intermediario','Nocturno']
-    };
-
-    useEffect(() => {
-        if (id) {
-            const fetchStudent = async () => {
-                try {
-                    const { data } = await getStudent(id);
-                
-                    if (data) {
-                        setForm({
-                            ...data,
-                            birthdate: data.birthdate ? dayjs(data.birthdate).format('YYYY-MM-DD') : null,
-                        });
-                    } else {
-                        console.error('Los datos del estudiante son inválidos.');
-                    }
-                } catch (err) {
-                    console.error(err);
-                } finally {
-                    setLoading(false); // Una vez que se completa la carga, establece loading en falso
-                }
-            };
-            fetchStudent();
-        } else {
-            setLoading(false); // Si no hay un ID, establece loading en falso de inmediato
-        }
-    }, [id]);
-
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setForm((prevForm) => ({
-            ...prevForm,
-            [name]: value
-        }));
-    };
-
-    const handleModalidadChange = (e) => {
-        const modalidad = e.target.value;
-        setForm((prevForm) => ({
-            ...prevForm,
-            modality: modalidad,
-            degree: grados[modalidad][0]
-        }));
-    };
-
-    const handleDateChange = (newValue) => {
-        setForm((prevForm) => ({
-            ...prevForm,
-            birthdate: newValue ? dayjs(newValue).format('YYYY-MM-DD') : null,
-        }));
-    };
-
-    const validateForm = () => {
-        let errors = {};
-
-        if (!form.name.match(/^[a-zA-Z]+$/)) {
-            errors.name = 'El campo solo debe contener letras.';
-        }
-        if (!form.lastName.match(/^[a-zA-Z]+$/)) {
-            errors.lastName = 'El campo solo debe contener letras.';
-        }
-        if (!form.dni.match(/^\d{8}$/)) {
-            errors.dni = 'El DNI debe tener 8 dígitos.';
-        }
-        if (form.email && !/\S+@\S+\.\S+/.test(form.email)) {
-            errors.email = 'El correo debe ser válido.';
-        }
-        if (form.contactNumber && !/^\d+$/.test(form.contactNumber)) {
-            errors.contactNumber = 'El campo solo puede contener números.';
-        }
-        if (form.fatherName && !/^[a-zA-Z]+$/.test(form.fatherName)) {
-            errors.fatherName = 'El campo solo debe contener letras.';
-        }
-        if (form.motherName && !/^[a-zA-Z]+$/.test(form.motherName)) {
-            errors.motherName = 'El campo solo debe contener letras.';
-        }
-        if (form.cellphoneNumber && !/^\d+$/.test(form.cellphoneNumber)) {
-            errors.cellphoneNumber = 'El campo solo puede contener números.';
-        }
-
-        setErrors(errors);
-        return Object.keys(errors).length === 0;
-    };
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        if (validateForm()) {
-            const student = { ...form };
-
-            try {
-                if (id) {
-                    await updateStudent(id, student);
-                } else {
-                    await addStudent(student);
-                }
-                navigator("/");
-            } catch (err) {
-                console.error(err);
-            }
-        }
-    };
-
+    const { form, handleChange, handleDateChange, handleModalidadChange, handleSubmit, errors, loading, grados } = useForm();
+    //console.log("render")
     return (
         <div className='container p-4 custom-scroll'>
             <Link to='/' className='btn btn-primary'>Atras</Link>
@@ -160,7 +30,6 @@ const AddStudent = () => {
                                 <option value="EBR">EBR</option>
                                 <option value="EBA">EBA</option>
                                 <option value="CEBA">CEBA</option>
-
                             </select>
                         </div>
                         <div className="col-md-6">
@@ -190,7 +59,7 @@ const AddStudent = () => {
                             <div className='col-md-12'>
                                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                                     <DatePicker
-                                        value={form.birthdate ? dayjs(form.birthdate) : null}
+                                        value={form.birthdate}
                                         onChange={handleDateChange}
                                     />
                                 </LocalizationProvider>

@@ -5,10 +5,20 @@ import { Link } from 'react-router-dom';
 import { StudentContext } from './StudentContext';
 
 const NavStudent = () => {
-    const { selectedModality, setSelectedModality } = useContext(StudentContext);
+    const { selectedModality, setSelectedModality, inputValue, setInputValue } = useContext(StudentContext);
 
-    const handleCheckboxChange = (event, modality) => {
-        setSelectedModality(modality);
+
+    const handleCheckboxChange = (modality) => {
+       
+        // Solo actualizar si la modalidad seleccionada es diferente
+        if (selectedModality !== modality) {
+            setSelectedModality(modality);
+        }
+    };
+
+    const handleInputChange = (e) => {
+        const { value } = e.target;
+        setInputValue(value)
     };
 
     return (
@@ -16,6 +26,7 @@ const NavStudent = () => {
             <div className='container-fluid d-flex justify-content-between mb-2'>
                 <div>
                     <Link to='/añadirEstudiante' className='btn btn-primary'>+ Nuevo Alumno</Link>
+                    <input type="text" value={inputValue} onChange={handleInputChange} className='ms-3'/>
                 </div>
                 <div className='d-flex gap-3 align-items-center'>
                     <label htmlFor="ebr">EBR</label>
@@ -23,7 +34,7 @@ const NavStudent = () => {
                         type="checkbox"
                         id="ebr"
                         checked={selectedModality === 'EBR'}
-                        onChange={(e) => handleCheckboxChange(e, 'EBR')}
+                        onChange={() => handleCheckboxChange('EBR')}
                     />
 
                     <label htmlFor="eba">EBA</label>
@@ -31,8 +42,7 @@ const NavStudent = () => {
                         type="checkbox"
                         id="eba"
                         checked={selectedModality === 'EBA'}
-                        onChange={(e) => handleCheckboxChange(e, 'EBA')}
-                        
+                        onChange={() => handleCheckboxChange('EBA')}
                     />
 
                     <label htmlFor="ceba">CEBA</label>
@@ -40,14 +50,14 @@ const NavStudent = () => {
                         type="checkbox"
                         id="ceba"
                         checked={selectedModality === 'CEBA'}
-                        onChange={(e) => handleCheckboxChange(e, 'CEBA')}
+                        onChange={() => handleCheckboxChange('CEBA')}
                     />
                     <label htmlFor="todos">TODOS</label>
                     <input
                         type="checkbox"
                         id="todos"
                         checked={selectedModality === 'TODOS'}
-                        onChange={(e) => handleCheckboxChange(e, 'TODOS')}
+                        onChange={() => handleCheckboxChange('TODOS')}
                     />
                 </div>
             </div>
