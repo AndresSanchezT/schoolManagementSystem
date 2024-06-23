@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import './formStudent.css';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -10,7 +10,9 @@ import { useForm } from '../../hooks/studentForm/UseForm';
 
 const AddStudent = () => {
     const { form, handleChange, handleDateChange, handleModalidadChange, handleSubmit, errors, loading, grados } = useForm();
-    //console.log("render")
+
+
+    console.log("render")
     return (
         <div className='container p-4 custom-scroll'>
             <Link to='/' className='btn btn-primary'>Atras</Link>

@@ -5,23 +5,26 @@ import HeaderComponent from "./sections/Header/Header";
 
 import router from "./routes/Routes";
 import "./App.css";
-import { StudentProvider } from "./components/NavStudent/StudentContext";
+import { StudentProvider } from "./contexts/StudentContext";
+import AsideProfile from "./components/asideProfile/AsideProfile";
 
 
 function App() {
   return (
     <>
-      <StudentProvider>
-        <div className="container-fluid principal">
-          <HeaderComponent />
-          <div className="container-fluid d-flex flex-row">
-            <Aside />
+
+      <div className="container-fluid principal">
+        <HeaderComponent />
+        <AsideProfile/>
+        <div className="container-fluid d-flex flex-row">
+          <Aside />
+          <StudentProvider>
             <div className="container-fluid">
               <RouterProvider router={router} />
             </div>
-          </div>
+          </StudentProvider>
         </div>
-      </StudentProvider>
+      </div>
     </>
   );
 

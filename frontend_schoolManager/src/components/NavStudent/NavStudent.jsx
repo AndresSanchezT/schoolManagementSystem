@@ -2,7 +2,7 @@
 import React, { useContext } from 'react';
 import './navStudent.css';
 import { Link } from 'react-router-dom';
-import { StudentContext } from './StudentContext';
+import { StudentContext } from '../../contexts/StudentContext';
 
 const NavStudent = () => {
     const { selectedModality, setSelectedModality, inputValue, setInputValue } = useContext(StudentContext);

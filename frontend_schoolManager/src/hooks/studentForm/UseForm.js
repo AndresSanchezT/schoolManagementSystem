@@ -8,6 +8,7 @@ export function useForm() {
     const { id } = useParams();
     const [errors, setErrors] = useState({});
     const [loading, setLoading] = useState(true);
+    
     const grados = {
         EBR: ['Inicial', 'Primaria', 'Secundaria'],
         EBA: ['Basico', 'Intermedio', 'Avanzado'],
@@ -60,7 +61,7 @@ export function useForm() {
     }, [id]);
 
     const handleChange = (e) => {
-        console.log("render")
+       
         const { name, value } = e.target;
         if (value.startsWith(" ")) return;
         setForm((prevForm) => ({
@@ -68,6 +69,7 @@ export function useForm() {
             [name]: value
         }));
     };
+    
 
     const handleModalidadChange = (e) => {
         const modalidad = e.target.value;
@@ -117,23 +119,29 @@ export function useForm() {
         return Object.keys(errors).length === 0;
     };
 
+    
+
     const handleSubmit = async (e) => {
         e.preventDefault();
-        if (validateForm()) {
-            const student = { ...form };
 
-            try {
-                if (id) {
-                    await updateStudent(id, student);
-                } else {
-                    await addStudent(student);
-                }
-                navigate("/");
-            } catch (err) {
-                console.error(err);
+        if (!validateForm()) {
+            return; // Si la validación falla, no hacer nada.
+        }
+
+        const student = { ...form };
+
+        try {
+            if (id) {
+                await updateStudent(id, student);
+            } else {
+                await addStudent(student);
             }
+            navigate("/");
+        } catch (err) {
+            console.error(err);
         }
     };
 
-    return { form, setForm, handleChange, handleDateChange, handleModalidadChange, handleSubmit, errors, setErrors, loading, grados };
+
+    return { form, handleChange, handleDateChange, handleModalidadChange, handleSubmit, errors, loading, grados };
 }

@@ -28,7 +28,7 @@ body {
 .principal {
     padding: 0;
     height: 100vh;
-
+    position: relative;
 }
 
 .container-fluid {

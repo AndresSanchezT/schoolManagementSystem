@@ -1,6 +1,8 @@
 import { createBrowserRouter } from "react-router-dom";
 import TableStudent from "../pages/Student/Student";
 import AddStudent from "../pages/AddStudent/FormStudent";
+import InfoStudent from "../pages/InfoStudent/InfoStudent";
+
 
 const router = createBrowserRouter([
     {
@@ -13,6 +15,10 @@ const router = createBrowserRouter([
     }, {
         path: "/editarEstudiante/:id",
         element: <AddStudent />,
+    },
+    {
+        path: "/infoStudent",
+        element: <InfoStudent/>
     },
 ]);
 

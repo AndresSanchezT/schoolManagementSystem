@@ -1,12 +1,27 @@
 import { useContext, useEffect, useState } from "react";
 import { deleteStudent, listStudent } from "../../services/studentService/StudentService";
 import { useNavigate } from "react-router-dom";
-import { StudentContext } from "../../components/NavStudent/StudentContext";
+import { StudentContext } from "../../contexts/StudentContext";
 
-export function useStudentList () {
+export function useStudentList() {
     const { selectedModality, inputValue } = useContext(StudentContext);
     const [estudiantes, setEstudiantes] = useState([]);
+    const [itemsPerPage] = useState(7);
+    const [currentPage, setCurrentPage] = useState(1);
     const navigator = useNavigate();
+
+    useEffect(() => {
+        const fetchStudents = async () => {
+            try {
+                const data = await listStudent();
+                setEstudiantes(data);
+            } catch (err) {
+                console.error("Error fetching students:", err);
+            }
+        };
+
+        fetchStudents();
+    }, []);
 
     const handleDelete = async (studentId) => {
         try {
@@ -22,26 +37,30 @@ export function useStudentList () {
         navigator(`/editarEstudiante/${id}`);
     }
 
-    useEffect(() => {
-        const fetchStudents = async () => {
-            try {
-                const data = await listStudent();
-                setEstudiantes(data);
-            } catch (err) {
-                console.error("Error fetching students:", err);
-            }
-        };
-
-        fetchStudents();
-    }, []);
-
     const filteredStudents = estudiantes.filter(estudiante => {
-        if (selectedModality === 'TODOS' || estudiante.modality === selectedModality) {
-            return estudiante.name.toLowerCase().includes(inputValue.toLowerCase());
-        }
-        return false;
+        const matchesModality = selectedModality === 'TODOS' || estudiante.modality === selectedModality;
+        const matchesNameOrDni = estudiante.name.toLowerCase().includes(inputValue.toLowerCase()) || estudiante.dni.includes(inputValue);
+        return matchesModality && matchesNameOrDni;
     });
 
-    return { handleDelete, updateStudent, filteredStudents }
-}
+    const indexFin = currentPage * itemsPerPage;
+    const indexIni = indexFin - itemsPerPage;
+    const currentStudents = filteredStudents.slice(indexIni, indexFin);
 
+    const totalPages = Math.ceil(filteredStudents.length / itemsPerPage);
+   
+
+    const nextPage = () => {
+        if (currentPage < totalPages) {
+            setCurrentPage(currentPage + 1);
+        }
+    };
+
+    const prevPage = () => {
+        if (currentPage > 1) {
+            setCurrentPage(currentPage - 1);
+        }
+    };
+
+    return { handleDelete, updateStudent, currentStudents, currentPage, totalPages, nextPage, prevPage };
+}

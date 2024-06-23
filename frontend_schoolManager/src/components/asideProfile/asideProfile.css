@@ -1,0 +1,21 @@
+#asideProfile{
+    width: 400px;
+    position: absolute;
+    align-items: center;
+    justify-content: center;
+    opacity: .8;
+    background-color: aqua;
+    top: 0;
+    right: 0;
+    height: 100vh;
+    display: none;
+    z-index: 1000;
+    transition: all .25s ease-in-out;
+}
+
+#asideProfile.expand {
+    display: block;
+    width: 260px;
+    min-width: 260px;
+    height: 100vh;
+}

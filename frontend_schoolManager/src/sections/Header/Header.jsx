@@ -15,7 +15,7 @@ const HeaderComponent = () => {
                 <button className='btn btn-outline-danger btn-sm rounded-circle me-2'>
                     <i className="bi bi-moon-stars-fill"></i>
                 </button>
-                <button className='btn btn-outline-danger btn-sm rounded-circle'>
+                <button className='btn btn-outline-danger btn-sm rounded-circle btn-profile'>
                     <i className="bi bi-person"></i>
                 </button>
             </div>

@@ -8,6 +8,11 @@ const dataAside = [
     {
         href: "#",
         icon: "bi bi-backpack",
+        text: "Inicio"
+    },
+    {
+        href: "#",
+        icon: "bi bi-backpack",
         text: "Estudiantes"
     },
     {
@@ -21,89 +26,42 @@ const dataAside = [
     },
     {
         href: "#",
-        icon: "bi bi-layout-text-window-reverse",
-        text: "Multi Level",
+        icon: "bi bi-shield-check",
+        text: "Gestion Usuarios",
         dropdown: [
-            {
-                href: "#",
-                text: "Two Links",
-                dropdown: [
-                    { href: "#", text: "Link 1" },
-                    { href: "#", text: "Link 2" }
-                ]
-            }
+            { href: "#", text: "Padres" },
+            { href: "#", text: "Docentes" },
+            { href: "#", text: "Otros usuarios" }
         ]
     },
     {
         href: "#",
         icon: "bi bi-backpack",
-        text: "Notificaciones"
+        text: "Matricula"
     },
+    {
+        href: "#",
+        icon: "bi bi-backpack",
+        text: "Examen"
+    },
+    {
+        href: "#",
+        icon: "bi bi-backpack",
+        text: "Calificacion"
+    },
+
     {
         href: "#",
         icon: "bi bi-backpack",
         text: "Configuración"
     },
+
     {
         href: "#",
-        icon: "bi bi-layout-text-window-reverse",
-        text: "Multi Level",
-        dropdown: [
-            {
-                href: "#",
-                text: "Two Links",
-                dropdown: [
-                    { href: "#", text: "Link 1" },
-                    { href: "#", text: "Link 2" }
-                ]
-            }
-        ]
+        icon: "bi bi-backpack",
+        text: "Asistencia"
     },
-    {
-        href: "#",
-        icon: "bi bi-layout-text-window-reverse",
-        text: "Multi Level",
-        dropdown: [
-            {
-                href: "#",
-                text: "Two Links",
-                dropdown: [
-                    { href: "#", text: "Link 1" },
-                    { href: "#", text: "Link 2" }
-                ]
-            }
-        ]
-    },
-    {
-        href: "#",
-        icon: "bi bi-layout-text-window-reverse",
-        text: "Multi Level",
-        dropdown: [
-            {
-                href: "#",
-                text: "Two Links",
-                dropdown: [
-                    { href: "#", text: "Link 1" },
-                    { href: "#", text: "Link 2" }
-                ]
-            }
-        ]
-    },
-    {
-        href: "#",
-        icon: "bi bi-layout-text-window-reverse",
-        text: "Multi Level",
-        dropdown: [
-            {
-                href: "#",
-                text: "Two Links",
-                dropdown: [
-                    { href: "#", text: "Link 1" },
-                    { href: "#", text: "Link 2" }
-                ]
-            }
-        ]
-    },
+
 
 ];
 
